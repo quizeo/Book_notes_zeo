@@ -32,9 +32,9 @@
         <div class="buttons">
             <a id="add" class="addButton">+</a>
             <a id="minus" class="addButton hidden">-</a>
-            <a id="delete" class="addButton"><img src="/img/delete.svg" alt=""></a>
+            <a id="delete" class="addButton trash">Trash</a>
             <form id="deleteForm" action="/deleteNotes/<%= book.id %>" method="post">
-                <button class="deleteButton hidden" type="submit">Delete</button>
+                <button class="deleteButton hidden" type="submit">Delete it now</button>
             </form>
         </div>
         <form class="addNotes" action="/addNotes/<%= book.id %>" method="post">
