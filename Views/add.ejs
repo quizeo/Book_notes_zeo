@@ -1,0 +1,92 @@
+<%- include('partials/header') %>
+
+<main>
+    <% if(locals.book){  %>
+    <form class="formAdd" action="/updateBook/<%= book.id %>" method="post" enctype="multipart/form-data">
+        <h1>Edit Book</h1>
+        <div class="form-group">
+            <label class="label_text" for="book_title">Book Title</label>
+            <input class="text_input" value="<%= book.book_title %>" type="text" id="book_title" name="book_title" >
+        </div>
+        <div class="form_flex">
+            <div class="form-group">
+                <label class="label_text" for="book_author">Author</label>
+                <input class="text_input" value="<%= book.book_author %>" type="text" id="book_author" name="book_author" >
+            </div>
+            <div class="form-group">
+                <label class="label_text" for="book_date">Published Date</label>
+                <input type="date" id="book_date" name="book_date" value="<%= new Date(book.book_date).toISOString().split('T')[0] %>" title="Select the published date" >
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="label_text" for="book_des">Description</label>
+            <textarea class="text_input" id="book_des" name="book_des"  ><%= book.book_des %></textarea>
+        </div>
+        <div class="form-group imgCenter">
+            <label class="label_text" for="book_cover">Book Cover</label>
+            <input class="imgInsert" type="file" id="book_cover" name="book_cover" accept="image/*" style="display: none;" >
+            <button class="bookCover" type="button" onclick="document.getElementById('book_cover').click();">Upload Cover Image</button>
+            <span id="file-chosen">No file chosen</span>
+            <% if (book.book_cover) { %>
+                <img id="img-preview" src="data:image/jpeg;base64,<%= book.book_cover %>" alt="Image Preview" style="display: block; margin: 10px auto 0px; max-width: 300px;">
+            <% } else { %>
+                <img id="img-preview" src="#" alt="Image Preview" style="display: none; margin: 10px auto 0px; max-width: 300px;">
+            <% } %>
+        </div>
+        <button class="buttonSubmit" type="submit">Update Book</button>
+    </form>
+    <% } else { %>
+    <form class="formAdd" action="/addBook" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label class="label_text" for="book_title">Book Title</label>
+            <input class="text_input" placeholder="Enter book title" type="text" id="book_title" name="book_title" required>
+        </div>
+        <div class="form_flex">
+            <div class="form-group">
+                <label class="label_text" for="book_author">Author</label>
+                <input class="text_input" placeholder="Enter author name" type="text" id="book_author" name="book_author" required>
+            </div>
+            <div class="form-group">
+                <label class="label_text" for="book_date">Published Date</label>
+                <input type="date" id="book_date" name="book_date" title="Select the published date" required>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="label_text" for="book_des">Description</label>
+            <textarea class="text_input" placeholder="Enter book description" id="book_des" name="book_des" required ></textarea>
+        </div>
+        <div class="form-group imgCenter">
+            <label class="label_text" for="book_cover">Book Cover</label>
+            <input class="imgInsert" type="file" id="book_cover" name="book_cover" accept="image/*" required style="display: none;" >
+            <button class="bookCover" type="button" onclick="document.getElementById('book_cover').click();">Upload Cover Image</button>
+            <span id="file-chosen">No file chosen</span>
+            <img id="img-preview" src="#" alt="Image Preview" style="display: none; margin: 10px auto 0px; max-width: 300px;">
+        </div>
+        <button class="buttonSubmit" type="submit">Add Book</button>
+    </form>
+    <% } %>
+</main>
+
+<script>
+    const fileInput = document.getElementById('book_cover');
+    const fileChosen = document.getElementById('file-chosen');
+    const imgPreview = document.getElementById('img-preview');
+
+    fileInput.addEventListener('change', function() {
+        const file = this.files[0];
+        if (file) {
+            fileChosen.textContent = file.name;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                imgPreview.src = e.target.result;
+                imgPreview.style.display = 'block';
+            }
+            reader.readAsDataURL(file);
+        } else {
+            fileChosen.textContent = 'No file chosen';
+            imgPreview.style.display = 'none';
+        }
+    });
+</script>
+
+<%- include('partials/footer') %>

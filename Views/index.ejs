@@ -1,0 +1,35 @@
+<%- include('partials/header') %>
+<div class="nav_area">
+    <div class="nav_con">
+        <a class="addButton" href="/addButton">+</a>
+    </div>
+</div>
+<main>
+    <div class="main_con">
+        <% if(itemBooks.length > 0) { %>
+        <div class="list_book_box">
+            <% for(let books of itemBooks){ %>
+            <section>
+                <figure><img src="data:image/jpeg;base64,<%= books.book_cover %>" alt=""></figure>
+                <div class="book_info">
+                    <h2><%= books.book_title %></h2>
+                    <div class="date_author">
+                        <p><%= books.book_author %></p>
+                        <p>Published: <%= books.book_date %></p>
+                    </div>
+                    <p class="book_des">
+                        <%= books.book_des ? (books.book_des.length > 300 ? books.book_des.substring(0, 300) + '...' : books.book_des) : '' %>
+                    </p>
+                    <p><%= books.book_price %></p>
+                    <a href="/bookNotes/<%= books.id %>">Read My Notes</a>
+                </div>
+            </section>
+            <% } %>
+        </div>
+        <% } else { %>
+        <p class="noBook">No books yet</p>
+        <% } %>
+    </div>
+</main>
+
+<%- include('partials/footer') %>

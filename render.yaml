@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: book-notes-app
+    env: node
+    plan: free
+    buildCommand: 'npm install'
+    startCommand: 'npm start'
+    envVars:
+      - key: DATABASE_URL
+        value: 'postgresql://postgres:zeo246846123@db.muaqyzqqmbnwvyumhwkq.supabase.co:5432/postgres'
+        

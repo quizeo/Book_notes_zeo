@@ -1,0 +1,124 @@
+<%- include('partials/header') %>
+
+<main>
+    <div class="main_con">
+        <div class="list_book_box1">
+            <section>
+                <figure><img src="data:image/jpeg;base64,<%= book.book_cover %>" alt=""></figure>
+                <div class="book_info">
+                    <h2><%= book.book_title %></h2>
+                    <div class="date_author">
+                        <p><%= book.book_author %></p>
+                        <p>Published: <%= book.book_date %></p>
+                    </div>
+                    <p class="book_des">
+                        <%= book.book_des %>
+                    </p>
+                    <div class="book_a">
+                        <a href="/bookNotes/<%= book.id %>/edit">Edit</a>    
+                        <a href="/bookNotes/deleteBook/<%= book.id %>">Delete</a>    
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</main>
+<div class="bottom">
+    <div class="bottom_con">
+        <div class="bottom_info">
+            <h2>My Notes</h2>
+        </div>
+
+        <div class="buttons">
+            <a id="add" class="addButton">+</a>
+            <a id="minus" class="addButton hidden">-</a>
+            <a id="delete" class="addButton"><img src="/img/delete.svg" alt=""></a>
+            <form id="deleteForm" action="/deleteNotes/<%= book.id %>" method="post">
+                <button class="deleteButton hidden" type="submit">Delete</button>
+            </form>
+        </div>
+        <form class="addNotes" action="/addNotes/<%= book.id %>" method="post">
+            <input id="input" class="hidden" type="text" name="note" id="note" placeholder="Add a note" required>
+            <button id="button" class="hidden" type="submit">Add</button>
+        </form>
+
+        <div class="botton_boxes">
+            <% if (notes && notes.length > 0) { %>
+                <% for (let note of notes) { %>
+                    <section id="item<%= note %>">
+                        <input id="checkbox<%= note %>" class="checkbox delete-checkbox hidden" type="checkbox" name="notesToDelete" value="<%= note %>" onclick="handlerDelete('<%= note %>')">
+                        <div class="note_info">
+                            <p><%= note %></p>
+                            <div class="note_a">
+                            </div>
+                        </div>
+                    </section>
+                <% } %>
+            <% } else { %>
+                <p>No notes yet</p>
+            <% } %>         
+        </div>
+    </div>
+</div>
+
+<!-- Include jQuery library -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        console.log("jQuery is loaded and ready");
+
+        $("#add").click(function () {
+            console.log("#add clicked");
+            $("#add").addClass("hidden");
+            $("#minus").removeClass("hidden");
+            $("#input").removeClass("hidden");
+            $("#button").removeClass("hidden");
+        });
+
+        $("#minus").click(function () {
+            console.log("#minus clicked");
+            $("#minus").addClass("hidden");
+            $("#add").removeClass("hidden");
+            $("#input").addClass("hidden");
+            $("#button").addClass("hidden");
+        });
+
+        $("#delete").click(function () {
+            $(this).toggleClass("black-background");
+            $("#delete img").toggleClass("filter");
+            $(".checkbox").toggleClass("hidden");
+        });
+    });
+
+    function handlerDelete(id) {
+        const checkboxes = $(".delete-checkbox");
+        const deleteForm = $("#deleteForm");
+
+        let anyChecked = false;
+        let selectedIds = [];
+
+        checkboxes.each(function() {
+            if ($(this).is(":checked")) {
+                anyChecked = true;
+                selectedIds.push($(this).val());
+            }
+        });
+
+
+        // Remove previous inputs and add new ones for checked items
+        deleteForm.find("input[name='notesToDelete']").remove();
+        selectedIds.forEach(id => {
+            deleteForm.append(`<input type="hidden" name="notesToDelete" value="${id}">`);
+        });
+
+        // Show or hide the delete button based on whether any checkboxes are checked
+        if (selectedIds.length > 0) {
+            $(".deleteButton").removeClass("hidden");
+        } else {
+            $(".deleteButton").addClass("hidden");
+        }
+    }
+</script>
+
+<%- include('partials/footer') %>
