@@ -34,7 +34,7 @@ const db = new Pool({
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'public/img');
+        cb(null, 'Public/Img');
     },
     filename: function (req, file, cb) {
         cb(null, Date.now() + path.extname(file.originalname));
