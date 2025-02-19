@@ -17,16 +17,12 @@ const app = express();
 const port = 3000;
 
 
-// Set the views directory
-
-
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 
 app.set('views', path.join(__dirname, 'views'));
-// Set the view engine to ejs
 app.set('view engine', 'ejs');
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -125,7 +121,7 @@ async function addNotes(id, note) {
 app.get('/', async (req, res) => {
     try {
         books = await getBooks();
-        res.render('index.ejs', { itemBooks: books });
+        res.render('index', { itemBooks: books });
     } catch (error) {
         console.log(error);
     }
