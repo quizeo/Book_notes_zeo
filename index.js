@@ -16,13 +16,12 @@ import { format } from 'date-fns';
 const app = express();
 const port = 3000;
 
-
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-
-app.set('views', path.join(__dirname, 'views'));
+// Set the views directory
+app.set('views', path.join(__dirname, 'Views'));
+// Set the view engine to ejs
 app.set('view engine', 'ejs');
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -128,7 +127,7 @@ app.get('/', async (req, res) => {
 });
 
 app.get('/addButton', (req, res) => {
-    res.render('add.ejs');
+    res.render('add');
 });
 
 app.post('/addBook', upload.single('book_cover'), async (req, res) => {
@@ -156,7 +155,7 @@ app.get('/bookNotes/:id', async (req, res) => {
         const book = await getBook(id);
         const bookNotes = await getNotes(id);
         console.log('notes:', bookNotes);
-        res.render('book_notes.ejs', { book: book, notes: bookNotes });
+        res.render('book_notes', { book: book, notes: bookNotes });
     } catch (error) {
         console.error('Error fetching book or notes:', error);
         res.status(500).send('Error fetching book or notes');
@@ -167,7 +166,7 @@ app.get('/bookNotes/:id/edit', async (req, res) => {
     try {
         const id = req.params.id;
         const book = await getBook(id);
-        res.render('add.ejs', { book: book });
+        res.render('add', { book: book });
     } catch (error) {
         console.error('Error fetching book add', error);
         res.status(500).send('Error fetching book add');
