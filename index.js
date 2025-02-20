@@ -85,9 +85,7 @@ async function getNotes(id) {
         }
         let notes = result.rows[0].notes;
 
-        // Sort notes by latest (assuming each note has a timestamp or id)
         notes.sort((a, b) => {
-            // Assuming each note has a 'timestamp' property
             return new Date(b.timestamp) - new Date(a.timestamp);
         });
 

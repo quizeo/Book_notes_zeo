@@ -116,6 +116,7 @@ textarea { width: 100%; height: 100px; padding: 15px; }
     .addNotes input { max-width: 100%; }
     .addNotes button { margin: 0 auto; }
     .buttons {justify-content: center; }
+    .nav_con a{margin: 0 auto;}
 
 }
 
