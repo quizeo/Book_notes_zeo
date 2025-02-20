@@ -1,4 +1,4 @@
-# Zeo-Blog
+# Book_notes_zeo
 This Book Notes website lets you explore my personal notes on books I've read. It allows adding books and notes, built using Node.js, EJS, PostgreSQL, and JavaScript.
  
 <strong style="font-weight:bold; display:block; width:100%;">https://book-notes-zeo.onrender.com/</strong>
